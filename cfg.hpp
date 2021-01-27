@@ -14,7 +14,7 @@ public:
         {
             if (is_write) {
                 node->insert_or_assign(name, value);
-            } else {
+            } else if (node && node->get(name)) {
                 value = node->get(name)->as<T>()->get();
             }
 
@@ -27,7 +27,7 @@ public:
         }
 
     private:
-        Section(Cfg* _cfg, toml::table* _node, bool _is_write)
+        Section(Cfg* _cfg, toml::table* _node, bool _is_write)            
             : cfg(_cfg)
             , node(_node)
             , is_write(_is_write)
@@ -67,6 +67,7 @@ public:
         }
 
         return Section(this, data[name].as_table(), is_write);
+
     }
 
 private:
